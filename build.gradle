@@ -1,12 +1,15 @@
 buildscript {
 	repositories {
-		maven { url "https://repo.spring.io/plugins-release" }
+		mavenCentral()
+		mavenLocal()
+		jcenter()
+		maven {
+		url 'https://repo.spring.io/plugins-snapshot'
+		}
 	}
 	dependencies {
-		classpath("io.spring.gradle:propdeps-plugin:0.0.8")
-		classpath("io.spring.gradle:docbook-reference-plugin:0.3.1")
-		classpath("org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.16")
-		classpath("org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.7")
+		classpath("io.spring.gradle:propdeps-plugin:0.0.8-SNAPSHOT")
+		classpath("io.spring.gradle:docbook-reference-plugin:0.3.1-SNAPSHOT")
 	}
 }
 
@@ -16,7 +19,6 @@ plugins {
 	id "io.spring.dependency-management" version "1.0.3.RELEASE" apply false
 	id "org.jetbrains.kotlin.jvm" version "1.2.51" apply false
 	id "org.jetbrains.dokka" version "0.9.17"
-	id "org.asciidoctor.convert" version "1.5.6"
 }
 
 buildScan {
@@ -151,6 +153,9 @@ configure(allprojects) { project ->
 	}
 
 	repositories {
+		mavenCentral()
+		mavenLocal()
+		jcenter()
 		maven { url "https://repo.spring.io/libs-release" }
 	}
 
@@ -283,7 +288,6 @@ configure(rootProject) {
 	}
 
 	artifacts {
-		archives docsZip
 		archives schemaZip
 		archives distZip
 	}

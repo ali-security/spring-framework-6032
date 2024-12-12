@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import org.junit.Test;
 
+import org.springframework.core.io.UrlResource;
 import org.springframework.tests.sample.beans.TestBean;
 
 import static org.junit.Assert.*;
@@ -153,7 +154,7 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 	}
 
 	@Test
-	public void propertyDescriptors() {
+	public void propertyDescriptors() throws Exception {
 		TestBean target = new TestBean();
 		target.setSpouse(new TestBean());
 		BeanWrapper accessor = createAccessor(target);
@@ -165,6 +166,22 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 		assertEquals("b", accessor.getPropertyValue("spouse.name"));
 		assertEquals(String.class, accessor.getPropertyDescriptor("name").getPropertyType());
 		assertEquals(String.class, accessor.getPropertyDescriptor("spouse.name").getPropertyType());
+
+		accessor = createAccessor(new UrlResource("https://spring.io"));
+
+		assertEquals(false, accessor.isReadableProperty("class.package"));
+		assertEquals(false, accessor.isReadableProperty("class.module"));
+		assertEquals(false, accessor.isReadableProperty("class.classLoader"));
+		assertEquals(true, accessor.isReadableProperty("class.name"));
+		assertEquals(true, accessor.isReadableProperty("class.simpleName"));
+		assertEquals(true, accessor.isReadableProperty("URL.protocol"));
+		assertEquals(true, accessor.isReadableProperty("URL.host"));
+		assertEquals(true, accessor.isReadableProperty("URL.port"));
+		assertEquals(true, accessor.isReadableProperty("URL.file"));
+		assertEquals(false, accessor.isReadableProperty("URL.content"));
+		assertEquals(false, accessor.isReadableProperty("inputStream"));
+		assertEquals(true, accessor.isReadableProperty("filename"));
+		assertEquals(true, accessor.isReadableProperty("description"));
 	}
 
 	@Test
